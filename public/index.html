@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Integrate and Fire Model</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/d2b/d2b.min.css" />
+		<script src="https://s3-us-west-2.amazonaws.com/d2b/d2b.min.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="/css/style.css" />
+		<script src="/js/javascript.js"></script>
+
+		<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+		<link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+	</head>
+
+	<body>
+		<div id="pagewrap">
+			<div id="params">
+				<label>$$ \Delta t \enspace (msec) $$</label>
+				<input id="delta_t" type="text"/><br>
+				<label>$$ \tau_m \enspace (msec) $$</label>
+				<input id="tau" type="text"/><br>
+				<label>$$ E_L \enspace (mV) $$</label>
+				<input id="el" type="text"/><br>
+				<label>$$ R_m I_e \enspace (mV) $$</label>
+				<input id="rmie" type="text"/><br>
+				<label>$$ V_{Threshold} \enspace (mV) $$</label>
+				<input id="vth" type="text"/><br>
+				<label>$$ V_{Reset} \enspace (mV) $$</label>
+				<input id="vreset" type="text"/><br>
+
+				<button onclick="update()">Update</button>
+			</div>
+			<div id="main">
+				<div id="voltage"></div>
+				<div id="frequency"></div>
+			</div>
+		</div>
+	</body>
+</html>

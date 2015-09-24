@@ -1,0 +1,130 @@
+html {
+	width: 100%;
+	height: 100%;
+}
+
+
+body {
+	width: 100%;
+	height: 100%;
+	padding: 0 0;
+	margin: 0;
+
+	background-color: #eee;
+}
+
+
+#pagewrap {
+	height: 100%;
+	padding-left: 160px;
+	overflow: hidden;
+}
+
+
+#params {
+	height: 100%;
+	width: 120px;
+	margin-left: -160px;
+	padding: 20px;
+	position: relative;
+	float: left;
+
+	background-color: white;
+	box-shadow: 1px 0px 2px #ccc;
+	text-align: center;
+}
+
+
+#main {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	float: left;
+	overflow: auto;
+}
+
+
+.d2b-point-foreground,
+.d2b-point-background {
+	opacity: 0;
+}
+
+.d2b-point-foreground:hover {
+	opacity: 1;
+	cursor: pointer;
+}
+
+#voltage,
+#frequency {
+	height: 45%;
+}
+
+#voltage {
+	margin-bottom: 5%;
+}
+
+text {
+	fill: #666;
+}
+
+.d2b-axis-chart .d2b-grid line {
+	stroke: #666;
+	opacity: 0.1;
+}
+
+.d2b-grid .d2b-x .tick:first-child line{
+	opacity: 0.9;
+	stroke-width: 2px;
+}
+
+.d2b-grid .d2b-y .tick:first-child line{
+	opacity: 0.9;
+	stroke-width: 2px;
+}
+
+label {
+	font-size: 14px;
+}
+
+input {
+	width: 80px;
+	margin-bottom: 20px;
+}
+
+input[type=text] {
+	background-color: #fafafa;
+	padding: 15px 10px;
+
+	border: none;
+	text-align: center;
+	font-family: 'Arvo', serif;
+	color: #734646;
+	font-size: 14px;
+}
+
+input[type=text]:hover {
+	border-radius: 5px;
+	background-color: #fafafa;
+}
+
+button {
+	width: 100px;
+	padding: 10px 15px;
+
+	background-color: #a96767;
+	border: none;
+	color: white;
+	cursor: pointer;
+	border-radius: 3px;
+	box-shadow: 0 4px 0px #734646;
+	font-family: 'Arvo', serif;
+	text-transform: uppercase;
+}
+
+button:hover {
+	box-shadow: 0 2px 0px #734646;
+}
+
+button:active {
+	box-shadow: 0 0px 0px #734646;
+}
