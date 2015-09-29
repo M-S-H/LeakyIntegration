@@ -51,8 +51,8 @@ function frequencyData(d) {
 	var data = {
 		data: {
 			labels: {
-				x: 'RmIe',
-				y: 'Frequency'
+				x: 'RmIe (mv)',
+				y: 'Frequency (mHz)'
 			},
 			types: [
 				{
@@ -60,7 +60,7 @@ function frequencyData(d) {
 					colorKey: 'color',
 					graphs: [
 						{
-							label: 'Voltage vs Time',
+							label: 'Frequency vs RmIe',
 							interpolate: 'linear',
 							values: d //freq.map(function(o,i) {return {x: i*rmie_step, y: (o>0) ? 1/o : 0};})
 						}
