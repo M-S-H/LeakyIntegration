@@ -15,35 +15,10 @@ var voltageVsTime = new d2b.CHARTS.axisChart();
 var freqencyVsRmie = new d2b.CHARTS.axisChart();
 
 
-// Approximation
-// --------------------------------------------------------------------
-function voltage(n) {
-	return vn[n] + ((delta_t) / (tau)) * ((el - vn[n]) + rmie);
-}
-
-
 // Voltage vs Time
 // --------------------------------------------------------------------
-function voltagevstime() {
-	j = 0;
-
-	for (i=0; j < 3; i++)
-	{
-		if (i > 1000)
-			break;
-		
-		v = voltage(i);
-		if (v > vth)
-		{
-			j += 1;
-			vn.push(vreset);
-		}
-		else
-			vn.push(v);
-	}
-}
-
-function voltageData() {
+function voltageData(d) {
+	console.log(d);
 	var data = {
 		data: {
 			labels: {
@@ -58,7 +33,7 @@ function voltageData() {
 						{
 							label: 'Voltage vs Time',
 							interpolate: 'linear',
-							values: vn.map(function(o,i) {return {x: i*delta_t, y: o};})
+							values: d //vn.map(function(o,i) {return {x: i*delta_t, y: o};})
 						}
 					]
 				}
@@ -70,58 +45,9 @@ function voltageData() {
 }
 
 
-function updateVoltage() {
-	delta_t = parseFloat($("#delta_t").val());
-	tau = parseFloat($("#tau").val());
-	el = parseFloat($("#el").val());
-	rmie = parseFloat($("#rmie").val());
-	vth = parseFloat($("#vth").val());
-	vreset = parseFloat($("#vreset").val());
-
-	vn = [-65];
-	voltagevstime();
-
-	var data = voltageData();
-
-	voltageVsTime
-		.data(data)
-		.update();
-}
-
-
 // Frequency
 // --------------------------------------------------------------------
-function frequency() {
-	for (i=0; i < 20; i+= rmie_step) {
-		last = 0;
-		times = 0;
-		j = 0;
-		rmie = i;
-		vn = [-65];
-		for (k=0; k < 500; k++) {
-			v = voltage(k);
-			if (v > vth)
-			{
-				//console.log(k);
-				j += 1;
-				times += delta_t*k - last;
-				last = delta_t*k;
-				vn.push(vreset);
-				//console.log(last);	
-			}
-			else
-				vn.push(v);
-		}
-
-		if (j > 0)
-			freq.push(times/j);
-		else
-			freq.push(0);
-	}
-}
-
-
-function frequencyData() {
+function frequencyData(d) {
 	var data = {
 		data: {
 			labels: {
@@ -136,7 +62,7 @@ function frequencyData() {
 						{
 							label: 'Voltage vs Time',
 							interpolate: 'linear',
-							values: freq.map(function(o,i) {return {x: i*rmie_step, y: (o>0) ? 1/o : 0};})
+							values: d //freq.map(function(o,i) {return {x: i*rmie_step, y: (o>0) ? 1/o : 0};})
 						}
 					]
 				}
@@ -145,33 +71,6 @@ function frequencyData() {
 	}
 
 	return data;	
-}
-
-
-function updateFreqency() {
-	delta_t = parseFloat($("#delta_t").val());
-	tau = parseFloat($("#tau").val());
-	el = parseFloat($("#el").val());
-	rmie = parseFloat($("#rmie").val());
-	vth = parseFloat($("#vth").val());
-	vreset = parseFloat($("#vreset").val());
-
-	freq = [];
-	frequency();
-
-	var data = frequencyData();
-
-	freqencyVsRmie
-		.data(data)
-		.update();
-}
-
-
-// Document Prep
-// --------------------------------------------------------------------
-function update() {
-	updateVoltage();
-	updateFreqency();
 }
 
 
@@ -184,17 +83,8 @@ $(document).ready(function(){
 	$("#rmie").val(rmie);
 	$("#vth").val(vth);
 	$("#vreset").val(vreset);
-	
 
-	// h = $(window).height() - $("#params").outerHeight() - 40;
-	// console.log(h);
-
-	// $("#graph").height(h);
-
-	voltagevstime();
-
-	data = voltageData();		
-
+	data = voltageData([]);		
 	voltageVsTime
 		.select('#voltage')
 		.color(
@@ -208,8 +98,7 @@ $(document).ready(function(){
 		.controls({lockXAxis: {enabled: false, domain:[0, 1000]}, hideLegend: {enabled: true}})
 		.update();
 
-	frequency();
-	data = frequencyData();
+	data = frequencyData([]);
 	freqencyVsRmie
 		.select('#frequency')
 		.color(
@@ -244,3 +133,30 @@ $(document).ready(function(){
 });
 
 
+function update() {
+	delta_t = parseFloat($("#delta_t").val());
+	tau = parseFloat($("#tau").val());
+	el = parseFloat($("#el").val());
+	rmie = parseFloat($("#rmie").val());
+	vth = parseFloat($("#vth").val());
+	vreset = parseFloat($("#vreset").val());
+	
+	$.ajax({
+		//type: "POST",
+		url: "/update",
+		data: {"delta_t": delta_t, "tau": tau, "el": el, "rmie": rmie, "vth": vth, "vreset": vreset},
+		dataType: 'json',
+		success: function(data) {
+			vdata = voltageData(data["voltage"]);
+			fdata = frequencyData(data["freq"]);
+
+			voltageVsTime
+				.data(vdata)
+				.update();
+
+			freqencyVsRmie
+				.data(fdata)
+				.update();
+		}
+	});
+}
