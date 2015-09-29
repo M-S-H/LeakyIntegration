@@ -33,7 +33,7 @@ get '/update' do
 		t += $delta_t
 	end
 
-	voltage_data = $vn.each_with_index.map {|v,i| (i/delta_t) % 10{x: i*$delta_t, y: v}}
+	voltage_data = $vn.each_with_index.map {|v,i| {x: i*$delta_t, y: v}}
 
 	# Frequency
 	rmie_step = 0.1
